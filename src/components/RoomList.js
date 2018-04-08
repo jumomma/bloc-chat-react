@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
+import './../App.css';
 
 class RoomList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       rooms: [],
-      newRoomName: ""
+      newRoomName: "",
+      name: ''
     };
 
+    this.handleChange = this.handleChange.bind(this);
     this.roomsRef = this.props.firebase.database().ref('rooms');
- }
+ };
 
   componentDidMount() {
     this.roomsRef.on('child_added', snapshot => {
       const room = snapshot.val();
       room.key = snapshot.key;
-      this.setState({ rooms: this.state.rooms.concat( room ) })
+      this.setState({ rooms: this.state.rooms.concat( room ) });
+
     });
   }
 
@@ -35,28 +39,38 @@ class RoomList extends Component {
     };
   }
 
+  selectRoom(key){
+    this.props.activeRoom(key);
+  }
+
+
+
   render() {
     return(
       <div id="side-bar">
         <div id="side-bar-title">
           <h1>Bloc Chat</h1>
         </div>
-        {this.state.rooms.map( (room, index) =>
-          <div className="room-list" key={room.key}>
-          {room.name}
-          </div>
-      )}
+          <ul>
+          {this.state.rooms.map( (room, index) => {
+            return (
+            <div className="room-list" key={room.key} onClick={(e) => this.selectRoom(room, e)} > {room.name}
+            </div>)
+          }
+        )}
 
-        <p>Enter a room name:</p>
-        <form>
-          <input type="text"
-          onChange={(e) => this.handleChange(e)}
-        />
-        <button className="button" id="create-room-button"
-          onClick={() => this.handleClick()}>
-          Create Room
-        </button>
-        </form>
+
+          <p>Enter a room name:</p>
+          <form>
+            <input type="text"
+            onChange={(e) => this.handleChange(e)}
+          />
+          <button className="button" id="create-room-button"
+            onClick={() => this.handleClick()}>
+            Create Room
+          </button>
+          </form>
+          </ul>
       </div>
       )}
 
