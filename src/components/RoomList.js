@@ -59,8 +59,7 @@ class RoomList extends Component {
           }
         )}
 
-
-          <p>Enter a room name:</p>
+          <p id="create">Create a new chat room:</p>
           <form>
             <input type="text"
             onChange={(e) => this.handleChange(e)}
