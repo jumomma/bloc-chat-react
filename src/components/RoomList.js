@@ -12,6 +12,8 @@ class RoomList extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.roomsRef = this.props.firebase.database().ref('rooms');
+    this.handleClick = this.handleClick.bind(this);
+    this.createRoom = this.createRoom.bind(this);
  };
 
   componentDidMount() {
@@ -28,16 +30,18 @@ class RoomList extends Component {
   }
 
 
-  handleClick(e) {
-    if (this.state.newRoomName!==''){
+  createRoom(e) {
       this.roomsRef.push({
         name: this.state.newRoomName
       });
     }
-    else {
-        alert("Field cannot be blank!");
-    };
+
+  handleClick(e){
+    e.preventDefault();
+    e.target.reset();
+    if (!this.state.newRoomName) {return}
   }
+
 
   selectRoom(key){
     this.props.activeRoom(key);
@@ -58,18 +62,17 @@ class RoomList extends Component {
             </div>)
           }
         )}
+          </ul>
 
           <p id="create">Create a new chat room:</p>
-          <form>
-            <input type="text"
-            onChange={(e) => this.handleChange(e)}
-          />
+          <form onSubmit= {this.handleClick}>
+            <input type="text" placeholder="Type room name"
+            onChange={(e) => this.handleChange(e)}/>
           <button className="button" id="create-room-button"
-            onClick={() => this.handleClick()}>
+            onClick={() => this.createRoom()}>
             Create Room
           </button>
           </form>
-          </ul>
       </div>
       )}
 

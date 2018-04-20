@@ -28,8 +28,8 @@ class MessageList extends Component {
      const message = snapshot.val();
      message.key = snapshot.key;
      this.setState({ messages: this.state.messages.concat( message ) })
-   })
- };
+   });
+ }
 
  handleChange(e) {
    this.setState({
@@ -49,7 +49,7 @@ class MessageList extends Component {
    var minutes = date.getMinutes();
    var year = date.getFullYear();
    var ampm = hours >= 12 ? 'pm' : 'am';
-   hours = hours ? hours = 12 : hours;
+   //hours = hours ? hours = 12 : hours;
    minutes = minutes < 10 ? '0' + minutes : minutes;
     var prettyTime = month + ' ' + day + ' ' + year + ' at ' + hours + ':' + minutes + ampm;
     return prettyTime;
@@ -62,7 +62,7 @@ class MessageList extends Component {
 newMessage(e){
   e.preventDefault();
   this.messagesRef.push({
-    username: this.state.username,
+    username: this.props.activeUser,
     content: this.state.content,
     sentAt: this.state.sentAt,
     roomId: this.state.roomId,
@@ -70,8 +70,12 @@ newMessage(e){
 }
 
 handleSubmit(e) {
-  e.preventDefault();
-}
+    e.preventDefault();
+    //e.target.reset();
+  if (this.state.content === '') {return}
+  }
+
+
 
  render() {
    const activeRoom = this.props.activeRoom;

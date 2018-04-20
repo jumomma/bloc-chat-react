@@ -24,7 +24,7 @@ class App extends Component {
 
     this.state = {
       activeRoom: '',
-      user:'',
+      user: ''
     };
 
     this.setActiveRoom = this.setActiveRoom.bind(this);
@@ -52,12 +52,13 @@ class App extends Component {
         </div>
         <aside>
           <div id="side-bar">
-            <RoomList firebase={firebase} activeRoom={this.setActiveRoom.bind(this)} />
+            <RoomList firebase={firebase} activeRoom={this.setActiveRoom} />
           </div>
         </aside>
         <div className="message-list">
+          <h2 className="room-name">{this.state.activeRoom.name}</h2>
           {displayMessages ?
-          (<MessageList firebase={firebase} activeRoom={this.state.activeRoom.key} user={this.state.user.displayName}/>)
+          (<MessageList firebase={firebase} activeRoom={this.state.activeRoom.key} activeUser={activeUser} />)
           : (null)
           }
         </div>
